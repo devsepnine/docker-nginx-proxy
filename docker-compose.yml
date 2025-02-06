@@ -6,7 +6,16 @@ services:
       - "80:80"      # HTTP Port
       - "443:443"    # HTTPS Port
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro      # Nginx Main Config
-      - ./user.d:/etc/nginx/user.d:ro             # User Config Directory
-      - ./ssl:/etc/nginx/ssl:ro                 # SSL Directory
+      - type: bind # Nginx Main Config
+        source: ./nginx.conf
+        target: /etc/nginx/nginx.conf
+        read_only: true
+      - type: bind # User Config Directory
+        source: ./user.d
+        target: /etc/nginx/user.d
+        read_only: true
+      - type: bind # SSL Directory
+        source: ./ssl
+        target: /etc/nginx/ssl
+        read_only: true
     restart: unless-stopped
